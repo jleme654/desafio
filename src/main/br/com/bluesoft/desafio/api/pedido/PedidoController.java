@@ -1,4 +1,4 @@
-package br.com.bluesoft.desafio.api;
+package br.com.bluesoft.desafio.api.pedido;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import br.com.bluesoft.desafio.model.Fornecedor;
 import br.com.bluesoft.desafio.model.Pedido;
 import br.com.bluesoft.desafio.repository.PedidoRepository;
 
@@ -20,6 +21,7 @@ import br.com.bluesoft.desafio.repository.PedidoRepository;
  * @version 1.0
  */
 @RestController
+@RequestMapping("/api/pedidos")
 public class PedidoController {
 
 	private PedidoRepository pedidoRepository;
@@ -28,10 +30,18 @@ public class PedidoController {
 	public PedidoController(PedidoRepository pedidoRepository) {
 		this.pedidoRepository = pedidoRepository;
 	}
+	
+	@RequestMapping("/{gtin}")
+	public Fornecedor getFornecedorByGtin(@PathVariable String gtin, Model model,
+			HttpServletRequest request) throws JsonProcessingException {
+		model.addAttribute("gtin", gtin);
+		return pedidoRepository.findOne(gtin);
+	}
 
-	@RequestMapping("/api/pedido/{gtin}/{quantidade}")
+	@RequestMapping("/{gtin}/{quantidade}")
 	public Pedido getPedidoByGtinAndQuantidade(@PathVariable String gtin, @PathVariable int quantidade, Model model,
 			HttpServletRequest request) throws JsonProcessingException {
-		return pedidoRepository.getPedidoByGtinAndQuantidade(gtin, quantidade);
+		Fornecedor fornecedor = pedidoRepository.findOne(gtin);
+		return pedidoRepository.getPedidoByGtinAndQuantidade(fornecedor, quantidade);
 	}
 }

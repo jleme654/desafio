@@ -20,28 +20,28 @@ import br.com.bluesoft.desafio.repository.PedidoRepository;
 public class PedidoRepositoryImpl implements PedidoRepository {
 
 	@Override
-	public Pedido getPedidoByGtinAndQuantidade(String gtin, int quantidade) throws JsonProcessingException {
-		Precos precos = new Precos();
-		precos.setQuantidade_minima(5);
-		precos.setPreco(5.50);
-
-		Fornecedor fornecedor = new Fornecedor();
-		fornecedor.setCnpj("123123");
-		fornecedor.setPrecos(precos);
+	public Pedido getPedidoByGtinAndQuantidade(Fornecedor fornecedor, int quantidade) throws JsonProcessingException {
+		Precos[] precos = new Precos[2];
+		if(quantidade < Integer.parseInt(precos[1].toString()))
+			return new Pedido();
+		
+//		Fornecedor fornecedor = new Fornecedor();
+//		fornecedor.setCnpj("123123");
+		//Precos[] precos = new Precos[2];
+//		
+//		fornecedor.setPrecos(precos);
 
 
 		List<Produto> produtos = new ArrayList<>();
 		Produto prod = new Produto();
-		prod.setGtin(gtin);
-		prod.setNome("julio");
+	//	prod.setGtin(fornecedor.ge);
+		prod.setNome(fornecedor.getNome());
 		produtos.add(prod);
 
 		Pedido pedido = new Pedido();
 		pedido.setFornecedor(fornecedor);
 		pedido.setProdutos(produtos);
 		
-		if(quantidade < precos.getQuantidade_minima() )
-			return new Pedido();
 
 		return pedido;
 	}

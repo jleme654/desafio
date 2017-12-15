@@ -9,6 +9,6 @@ import br.com.bluesoft.desafio.model.Pedido;
 
 public interface PedidoRepository extends CrudRepository<Fornecedor, String> {
 	
-	public Pedido getPedidoByGtinAndQuantidade(String gtin, int quantidade) throws JsonProcessingException;
+	public Pedido getPedidoByGtinAndQuantidade(Fornecedor fornecedor, int quantidade) throws JsonProcessingException;
 
 }

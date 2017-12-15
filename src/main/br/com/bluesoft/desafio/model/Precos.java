@@ -13,27 +13,30 @@ public class Precos {
 	/**
 	 * variaveis
 	 */
-	private double preco;
-	private int quantidade_minima;
+	private String preco;
+	private String quantidade_minima;
 
 	/**
 	 * encapsulamentos
 	 */
-	
-	public double getPreco() {
+	public String getPreco() {
 		return preco;
 	}
 
-	public void setPreco(double preco) {
+	public void setPreco(String preco) {
 		this.preco = preco;
 	}
 
-	public int getQuantidade_minima() {
+	public String getQuantidade_minima() {
 		return quantidade_minima;
 	}
 
-	public void setQuantidade_minima(int quantidade_minima) {
+	public void setQuantidade_minima(String quantidade_minima) {
 		this.quantidade_minima = quantidade_minima;
 	}
 
+	@Override
+	public String toString() {
+		return "ClassPojo [preco = " + preco + ", quantidade_minima = " + quantidade_minima + "]";
+	}
 }
