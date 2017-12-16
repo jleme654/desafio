@@ -1,7 +1,5 @@
 package br.com.bluesoft.desafio.model;
 
-import javax.persistence.Entity;
-
 /**
  * 
  * @author julio.leme
