@@ -39,6 +39,15 @@ public class PedidoHelper {
 				Produto produto = this.produtoController.findOne(gtin, model, request);
 				
 				//TODO regras para enumerar os produtos com quantidades minimas validas e melhores precos
+				String preco = fornecedor.getPrecos()[0];
+				String quantidade_minima = fornecedor.getPrecos()[1];
+				int quantidade_minima_convert = Integer.parseInt(quantidade_minima);
+				
+				if(Integer.parseInt(produto.getQuantidade()) < quantidade_minima_convert) {
+					System.out.println("quantidado nao permitida");
+				} else {
+					
+				}
 				
 				produtos.add(produto);
 				

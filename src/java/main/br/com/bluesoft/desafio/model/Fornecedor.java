@@ -17,7 +17,7 @@ public class Fornecedor {
 	 */
 	@Id
 	private String cnpj;
-	private Precos[] precos;
+	private String[] precos;
 	private String nome;
 
 	/**
@@ -31,11 +31,11 @@ public class Fornecedor {
 		this.cnpj = cnpj;
 	}
 
-	public Precos[] getPrecos() {
+	public String[] getPrecos() {
 		return precos;
 	}
 
-	public void setPrecos(Precos[] precos) {
+	public void setPrecos(String[] precos) {
 		this.precos = precos;
 	}
 
