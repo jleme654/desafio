@@ -48,9 +48,8 @@ public class PedidoController {
 		Produto[] produtos = new Produto[] {ProdutoMock.getProdutoMock(), ProdutoMock.getProdutoMock2(), ProdutoMock.getProdutoMock3()};
 		List<Pedido> listaPedidos = pedidoHelper.calculaListaPedido(produtos);
 		
-		for (Pedido pedido : listaPedidos) {
+		for (Pedido pedido : listaPedidos) 
 			System.out.println(pedido);
-		}
          
 		return listaPedidos;
 	 }		

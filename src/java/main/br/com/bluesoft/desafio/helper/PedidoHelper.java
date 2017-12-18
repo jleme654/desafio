@@ -3,6 +3,8 @@ package br.com.bluesoft.desafio.helper;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.json.simple.parser.ParseException;
@@ -92,6 +94,15 @@ public class PedidoHelper {
 				novaListaPrecos.add(i, listaPrecos.get(i));
 			}
 		}
+	    // ordenando a lista em ordem crescente de preco
+	    Collections.sort (novaListaPrecos, new Comparator<Object>() {
+            public int compare(Object o1, Object o2) {
+                Precos p1 = (Precos) o1;
+                Precos p2 = (Precos) o2;
+                return Double.valueOf(p1.getPreco()) > Double.valueOf(p2.getPreco()) ? +1 : (Double.valueOf(p1.getPreco()) < Double.valueOf(p2.getPreco()) ? -1 : 0);
+            }
+        });
+	    
 		f.setPrecos(novaListaPrecos);
 	    
 		return f;

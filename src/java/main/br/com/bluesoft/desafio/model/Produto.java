@@ -35,4 +35,9 @@ public class Produto {
 		this.quantidade = quantidade;
 	}
 
+	@Override
+	public String toString() {
+		return "Produto [gtin=" + gtin + ", quantidade=" + quantidade + ", nome=" + nome + "]";
+	}
+
 }
