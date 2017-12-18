@@ -16,6 +16,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.gson.Gson;
+
 import br.com.bluesoft.desafio.model.Fornecedor;
 
 
@@ -41,26 +43,26 @@ public class FornecedorController {
 
 		JSONParser parser = new JSONParser();
 		JSONArray jsonArray = (JSONArray) parser.parse(br);
-		System.out.println(jsonArray);
+		//System.out.println(jsonArray);
 		
 		for (Iterator iterator = jsonArray.listIterator(); iterator.hasNext();) {
 			JSONObject jsonObject = (JSONObject) iterator.next();
 			
-			Fornecedor fornecedor = new Fornecedor();
-			fornecedor.setCnpj(jsonObject.toJSONString());
-		
+			Gson gson = new Gson();
+			Fornecedor fornecedor = gson.fromJson(jsonObject.toJSONString(), Fornecedor.class);
+
 			fornecedores.add(fornecedor);
 		}
 		return fornecedores;
 	}
 	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		FornecedorController f = new FornecedorController();
 		try {
 
 			List<Fornecedor> lista = f.findAllFornecedoresByGtin("7894900011517");
 			for (Fornecedor fff  : lista) {
-				System.out.println(fff.getCnpj());
+				System.out.println(fff);
 			}
 		} catch (ParseException e) {
 			// TODO Auto-generated catch blo
@@ -76,7 +78,7 @@ public class FornecedorController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
+	}*/
 	
 	
 }

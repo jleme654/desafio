@@ -35,6 +35,6 @@ public class Precos {
 
 	@Override
 	public String toString() {
-		return "ClassPojo [preco = " + preco + ", quantidade_minima = " + quantidade_minima + "]";
+		return "Precos [preco = " + preco + ", quantidade_minima = " + quantidade_minima + "]";
 	}
 }
