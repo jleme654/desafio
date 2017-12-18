@@ -23,6 +23,8 @@
                         quantidade: produto.quantidade
                     };
                 });
+                
+                alert(data);
 
                 SweetAlert.swal({
                     title: "Carregando...",

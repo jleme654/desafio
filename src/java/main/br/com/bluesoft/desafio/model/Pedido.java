@@ -13,6 +13,11 @@ public class Pedido {
 	private Fornecedor fornecedor;
 	private List<Produto> produtos;
 
+	/**
+	 * encapsulamentos
+	 * 
+	 * @return
+	 */
 	public Fornecedor getFornecedor() {
 		return fornecedor;
 	}
@@ -27,6 +32,11 @@ public class Pedido {
 
 	public void setProdutos(List<Produto> produtos) {
 		this.produtos = produtos;
+	}
+
+	@Override
+	public String toString() {
+		return "Pedido [fornecedor=" + fornecedor + ", produtos=" + produtos + "]";
 	}
 
 }

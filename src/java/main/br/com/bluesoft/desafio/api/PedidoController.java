@@ -46,16 +46,32 @@ public class PedidoController {
 		return pedidoRepository.getPedidoByGtinAndQuantidade(fornecedor, quantidade);
 	}*/
 	
-	@RequestMapping("/novo-pedido/{gtin}/{produtos}")
+	@RequestMapping("/novo-pedido/{produtos}")
 	public List<Pedido> getNovoPedido(@PathVariable Produto[] produtos, Model model,
 			HttpServletRequest request) throws JsonProcessingException {
 		
 		model.addAttribute("produtos", produtos);
-		//model.addAttribute("quantidade", quantidade);
 		
 		PedidoHelper pedidoHelper = new PedidoHelper();
-		List<Pedido> listaPedidos = null;//pedidoHelper.calculaPedido(gtin, quantidade, model, request);
+		List<Pedido> listaPedidos = pedidoHelper.calculaListaPedido(produtos);
+		
+	    for (Pedido pedido : listaPedidos) {
+			System.out.println(pedido);
+		}	
 	
 		return listaPedidos;
 	}
+	
+//	@RequestMapping("/novo-pedido/{gtin}/{quantidade}")
+//	public List<Pedido> getNovoPedido(@PathVariable String gtin, @PathVariable String quantidade, Model model,
+//			HttpServletRequest request) throws JsonProcessingException {
+//		
+//		model.addAttribute("gtin", gtin);
+//		model.addAttribute("quantidade", quantidade);
+//		
+//		PedidoHelper pedidoHelper = new PedidoHelper();
+//		List<Pedido> listaPedidos = null;//pedidoHelper.calculaPedido(gtin, quantidade, model, request);
+//	
+//		return listaPedidos;
+//	}
 }

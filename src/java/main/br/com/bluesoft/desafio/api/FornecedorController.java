@@ -31,7 +31,6 @@ import br.com.bluesoft.desafio.model.Fornecedor;
 @Configuration
 public class FornecedorController {
 
-	
 	public List<Fornecedor> findAllFornecedoresByGtin(@PathVariable String gtin)
 			throws InstantiationException, IllegalAccessException, IOException, ParseException {
 

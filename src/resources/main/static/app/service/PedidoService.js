@@ -9,7 +9,7 @@
                 save: function(data) {
                 	//return $http.post('https://egf1amcv33.execute-api.us-east-1.amazonaws.com/dev/produto' , data);
                     //return $http.post('https://egf1amcv33.execute-api.us-east-1.amazonaws.com/dev/novo-pedido', data);
-                	 return $http.get('/api/novo-pedido', data);
+                	 return $http.get('/api/pedidos/novo-pedido', data);
                 }
             };
         }]);
