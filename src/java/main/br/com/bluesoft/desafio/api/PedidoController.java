@@ -13,6 +13,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import br.com.bluesoft.desafio.helper.PedidoHelper;
 import br.com.bluesoft.desafio.model.Pedido;
+import br.com.bluesoft.desafio.model.Produto;
 
 /**
  * 
@@ -45,15 +46,15 @@ public class PedidoController {
 		return pedidoRepository.getPedidoByGtinAndQuantidade(fornecedor, quantidade);
 	}*/
 	
-	@RequestMapping("/novo-pedido/{gtin}/{quantidade}")
-	public List<Pedido> getNovoPedido(@PathVariable String gtin, @PathVariable String quantidade, Model model,
+	@RequestMapping("/novo-pedido/{gtin}/{produtos}")
+	public List<Pedido> getNovoPedido(@PathVariable Produto[] produtos, Model model,
 			HttpServletRequest request) throws JsonProcessingException {
 		
-		model.addAttribute("gtin", gtin);
-		model.addAttribute("quantidade", quantidade);
+		model.addAttribute("produtos", produtos);
+		//model.addAttribute("quantidade", quantidade);
 		
 		PedidoHelper pedidoHelper = new PedidoHelper();
-		List<Pedido> listaPedidos = pedidoHelper.calculaPedido(gtin, quantidade, model, request);
+		List<Pedido> listaPedidos = null;//pedidoHelper.calculaPedido(gtin, quantidade, model, request);
 	
 		return listaPedidos;
 	}

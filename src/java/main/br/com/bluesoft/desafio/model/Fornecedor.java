@@ -1,5 +1,7 @@
 package br.com.bluesoft.desafio.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -17,7 +19,7 @@ public class Fornecedor {
 	 */
 	@Id
 	private String cnpj;
-	private String[] precos;
+	private List<Precos> precos;
 	private String nome;
 
 	/**
@@ -28,14 +30,14 @@ public class Fornecedor {
 	}
 
 	public void setCnpj(String cnpj) {
-		this.cnpj = cnpj;
+		this.cnpj = cnpj.replace("\\", "");
 	}
 
-	public String[] getPrecos() {
+	public List<Precos> getPrecos() {
 		return precos;
 	}
 
-	public void setPrecos(String[] precos) {
+	public void setPrecos(List<Precos> precos) {
 		this.precos = precos;
 	}
 
@@ -45,6 +47,11 @@ public class Fornecedor {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	@Override
+	public String toString() {
+		return "Fornecedor [ " +cnpj + "]";
 	}
 
 }
