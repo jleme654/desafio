@@ -8,9 +8,6 @@ package br.com.bluesoft.desafio.model;
  */
 public class Precos {
 
-	/**
-	 * variaveis
-	 */
 	private String preco;
 	private String quantidade_minima;
 
@@ -35,6 +32,6 @@ public class Precos {
 
 	@Override
 	public String toString() {
-		return "Precos [preco = " + preco + ", quantidade_minima = " + quantidade_minima + "]";
+		return "Precos [preco=" + preco + ", quantidade_minima=" + quantidade_minima + "]";
 	}
 }

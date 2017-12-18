@@ -23,7 +23,7 @@ public class PedidoHelper {
 	@Autowired
 	ProdutoController produtoController;
 
-	private boolean elegivel;
+	//private boolean elegivel;
 
 	private List<Pedido> listaPedido = new ArrayList<Pedido>();
 	
@@ -34,8 +34,9 @@ public class PedidoHelper {
 			for (int i = 0; i < produtos.length; i++) {
 				Produto produto = produtos[i];
 				String gtin = produto.getGtin();
+				String quantidade_web = produto.getQuantidade();
 
-				Pedido pedido = calculaPedido(gtin, listaProdutos);
+				Pedido pedido = calculaPedido(gtin, quantidade_web, listaProdutos);
 				if(null != pedido)
 					listaPedido.add(pedido);
 			}
@@ -49,40 +50,27 @@ public class PedidoHelper {
 	}
 
 	// parametros oriundos da web
-	public Pedido calculaPedido(String gtin, List<Produto> produtos)
+	public Pedido calculaPedido(String gtin, String quantidade_web, List<Produto> listaProdutos )
 			throws InstantiationException, IllegalAccessException, IOException, ParseException {
 
 		Pedido pedido = new Pedido();
 
-		List<Fornecedor> listaFornecedores = this.fornecedorController.findAllFornecedoresByGtin(gtin);
+		fornecedorController = new FornecedorController();
+		List<Fornecedor> listaFornecedores = fornecedorController.findAllFornecedoresByGtin(gtin);
 
-		int count = 0;
 		for (Fornecedor fornecedor : listaFornecedores) {
-
-			List<Produto> listaProdutosElegiveis = new ArrayList<>();
-			for (Produto itemProduto : produtos) {
-				elegivel = getElegivelParaCompra(count, fornecedor, itemProduto);
-				if (elegivel)
-					listaProdutosElegiveis.add(itemProduto);
-			}
-			//itera a lista
-			count++;
+			fornecedor = getFornecedorMelhorPreco(fornecedor, quantidade_web);
 
 			// nestas condicoes a app somente adicionara ao pedido a lista de produtos que
 			// obedecem a codicao da quantidade minima	
-			pedido.setProdutos(listaProdutosElegiveis);
-			
-			// regra do menor preco
-			fornecedor = getFornecedorMelhorPreco(fornecedor);
+			pedido.setProdutos(listaProdutos);
 			pedido.setFornecedor(fornecedor);
 		}
-
 		return pedido;
 	}
 	
-	public Fornecedor getFornecedorMelhorPreco(Fornecedor f) {
-		Fornecedor f2 = new Fornecedor();
-		List<Precos> listaPrecos = Arrays.asList(f.getPrecos());
+	public Fornecedor getFornecedorMelhorPreco(Fornecedor f, String quantidade_web) {
+		List<Precos> listaPrecos = f.getPrecos();//Arrays.asList(f.getPrecos());
 		List<Precos> novaListaPrecos = new ArrayList<Precos>();
 		
 		// item preco
@@ -90,32 +78,42 @@ public class PedidoHelper {
 	    double menor_preco_double = Double.valueOf(menor_preco_str);
 	    
 	    for (int i = 0; i < listaPrecos.size(); i++) {
-			String preco = listaPrecos.get(i).getPreco();
+			// item preco
+	    	String preco = listaPrecos.get(i).getPreco();
 			double preco_double = Double.valueOf(preco);
-			if(preco_double <= menor_preco_double)
+			
+			// item quantidade
+			String qtde_minima_str = listaPrecos.get(i).getQuantidade_minima();
+			int qtde_min = Integer.parseInt(qtde_minima_str);
+			int qtde_min_web = Integer.parseInt(quantidade_web);			
+			
+			// condicoes de quantidade e preco juntas
+			if (preco_double <= menor_preco_double && qtde_min_web > qtde_min) {
 				novaListaPrecos.add(i, listaPrecos.get(i));
+			}
 		}
-		
-		return f2;
+		f.setPrecos(novaListaPrecos);
+	    
+		return f;
 	}
 	
 	// app verifica se quantidade solicitada pela web suporta a quantidade minima
 	// exigida de venda do produto
-	public boolean getElegivelParaCompra(int count, Fornecedor fornecedor, Produto produto) {
+	/*public boolean getElegivelParaCompra(int count, Fornecedor fornecedor, Produto produto) {
 		elegivel = true;
 
 		// item quantidade
-		List<Precos> precos = Arrays.asList(fornecedor.getPrecos());
+		List<Precos> precos = fornecedor.getPrecos();//Arrays.asList(fornecedor.getPrecos());
 		String qtde_minima_str = precos.get(count).getQuantidade_minima();
 		int qtde_minima = Integer.parseInt(qtde_minima_str);
 
 		String qtde_web_str = produto.getQuantidade();
 		int qtde_web = Integer.parseInt(qtde_web_str);
 		
-		if (qtde_web > qtde_minima)
+		if (qtde_web >= qtde_minima)
 			return elegivel;
 		else
 			return !elegivel;
 	}
-
+*/
 }

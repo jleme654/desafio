@@ -13,8 +13,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
 
@@ -27,7 +27,7 @@ import br.com.bluesoft.desafio.model.Fornecedor;
  * @since 2017-12-18
  * @version 1.0
  */
-@RestController
+@Controller
 @Configuration
 public class FornecedorController {
 
@@ -64,17 +64,12 @@ public class FornecedorController {
 				System.out.println(fff);
 			}
 		} catch (ParseException e) {
-			// TODO Auto-generated catch blo
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}*/

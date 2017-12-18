@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-import br.com.bluesoft.desafio.api.mocks.ProdutoMock;
 import br.com.bluesoft.desafio.helper.PedidoHelper;
+import br.com.bluesoft.desafio.mock.ProdutoMock;
 import br.com.bluesoft.desafio.model.Pedido;
 import br.com.bluesoft.desafio.model.Produto;
 
@@ -31,21 +31,21 @@ public class PedidoController {
 	@RequestMapping(value="/{produtos}", method=RequestMethod.POST)
 	public @ResponseBody List<Pedido> getNovoPedido(@RequestParam Produto[] produtos)
 			throws JsonProcessingException {
+//		 @RequestParam Produto[] produtos, Model model,
+//			HttpServletRequest request) throws JsonProcessingException {
+//	model.addAttribute("produtos", produtos); 
 		
 		PedidoHelper pedidoHelper = new PedidoHelper();
 		List<Pedido> listaPedidos = pedidoHelper.calculaListaPedido(produtos);
-
-		for (Pedido pedido : listaPedidos) {
-			System.out.println(pedido);
-		}
 
 		return listaPedidos;
 	}
 	
 	 @GetMapping
 	 public List<Pedido> getListaPedidosMock(){
+		
 		PedidoHelper pedidoHelper = new PedidoHelper();
-		Produto[] produtos = ProdutoMock.getProdutoArrayMock();
+		Produto[] produtos = new Produto[] {ProdutoMock.getProdutoMock(), ProdutoMock.getProdutoMock2(), ProdutoMock.getProdutoMock3()};
 		List<Pedido> listaPedidos = pedidoHelper.calculaListaPedido(produtos);
 		
 		for (Pedido pedido : listaPedidos) {
@@ -53,7 +53,6 @@ public class PedidoController {
 		}
          
 		return listaPedidos;
-	 }
-		
+	 }		
 
 }
