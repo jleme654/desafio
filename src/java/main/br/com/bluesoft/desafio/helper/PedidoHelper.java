@@ -88,7 +88,7 @@ public class PedidoHelper {
 			int qtde_min_web = Integer.parseInt(quantidade_web);			
 			
 			// condicoes de quantidade e preco juntas
-			if (preco_double <= menor_preco_double && qtde_min_web > qtde_min) {
+			if (preco_double <= menor_preco_double && qtde_min_web >= qtde_min) {
 				novaListaPrecos.add(i, listaPrecos.get(i));
 			}
 		}
