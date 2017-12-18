@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-import br.com.bluesoft.desafio.model.Fornecedor;
 import br.com.bluesoft.desafio.model.Produto;
 import br.com.bluesoft.desafio.repository.ProdutoRepository;
 

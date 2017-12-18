@@ -2,16 +2,17 @@ package br.com.bluesoft.desafio.api;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.context.annotation.Configuration;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import br.com.bluesoft.desafio.api.mocks.ProdutoMock;
 import br.com.bluesoft.desafio.helper.PedidoHelper;
 import br.com.bluesoft.desafio.model.Pedido;
 import br.com.bluesoft.desafio.model.Produto;
@@ -27,20 +28,32 @@ import br.com.bluesoft.desafio.model.Produto;
 @Configuration
 public class PedidoController {
 
-	@RequestMapping("/{produtos}")
-	public List<Pedido> getNovoPedido(@PathVariable Produto[] produtos, Model model,
-			HttpServletRequest request) throws JsonProcessingException {
-		
-		model.addAttribute("produtos", produtos);
+	@RequestMapping(value="/{produtos}", method=RequestMethod.POST)
+	public @ResponseBody List<Pedido> getNovoPedido(@RequestParam Produto[] produtos)
+			throws JsonProcessingException {
 		
 		PedidoHelper pedidoHelper = new PedidoHelper();
-		List<Pedido> listaPedidos = null;//pedidoHelper.calculaListaPedido(produtos);
-		
-	    for (Pedido pedido : listaPedidos) {
+		List<Pedido> listaPedidos = pedidoHelper.calculaListaPedido(produtos);
+
+		for (Pedido pedido : listaPedidos) {
 			System.out.println(pedido);
-		}	
-	
+		}
+
 		return listaPedidos;
 	}
+	
+	 @GetMapping
+	 public List<Pedido> getListaPedidosMock(){
+		PedidoHelper pedidoHelper = new PedidoHelper();
+		Produto[] produtos = ProdutoMock.getProdutoArrayMock();
+		List<Pedido> listaPedidos = pedidoHelper.calculaListaPedido(produtos);
+		
+		for (Pedido pedido : listaPedidos) {
+			System.out.println(pedido);
+		}
+         
+		return listaPedidos;
+	 }
+		
 
 }

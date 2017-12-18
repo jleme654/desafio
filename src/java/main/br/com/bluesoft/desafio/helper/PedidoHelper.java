@@ -25,7 +25,8 @@ public class PedidoHelper {
 
 	private boolean elegivel;
 
-	private List<Pedido> listaPedido = new ArrayList<>();
+	private List<Pedido> listaPedido = new ArrayList<Pedido>();
+	
 
 	public List<Pedido> calculaListaPedido(Produto[] produtos) {
 		List<Produto> listaProdutos = Arrays.asList(produtos);
@@ -38,6 +39,9 @@ public class PedidoHelper {
 				if(null != pedido)
 					listaPedido.add(pedido);
 			}
+			
+			//ordena a lista de pedidos 
+			
 		} catch (InstantiationException | IllegalAccessException | IOException | ParseException e) {
 			e.printStackTrace();
 		}
@@ -57,7 +61,7 @@ public class PedidoHelper {
 
 			List<Produto> listaProdutosElegiveis = new ArrayList<>();
 			for (Produto itemProduto : produtos) {
-				elegivel = getElegivelParaVenda(count, fornecedor, itemProduto);
+				elegivel = getElegivelParaCompra(count, fornecedor, itemProduto);
 				if (elegivel)
 					listaProdutosElegiveis.add(itemProduto);
 			}
@@ -65,26 +69,49 @@ public class PedidoHelper {
 			count++;
 
 			// nestas condicoes a app somente adicionara ao pedido a lista de produtos que
-			// obedecem a codicao da quantidade minima
+			// obedecem a codicao da quantidade minima	
 			pedido.setProdutos(listaProdutosElegiveis);
+			
+			// regra do menor preco
+			fornecedor = getFornecedorMelhorPreco(fornecedor);
 			pedido.setFornecedor(fornecedor);
 		}
 
 		return pedido;
 	}
-
+	
+	public Fornecedor getFornecedorMelhorPreco(Fornecedor f) {
+		Fornecedor f2 = new Fornecedor();
+		List<Precos> listaPrecos = Arrays.asList(f.getPrecos());
+		List<Precos> novaListaPrecos = new ArrayList<Precos>();
+		
+		// item preco
+	    String menor_preco_str = listaPrecos.get(0).getPreco();
+	    double menor_preco_double = Double.valueOf(menor_preco_str);
+	    
+	    for (int i = 0; i < listaPrecos.size(); i++) {
+			String preco = listaPrecos.get(i).getPreco();
+			double preco_double = Double.valueOf(preco);
+			if(preco_double <= menor_preco_double)
+				novaListaPrecos.add(i, listaPrecos.get(i));
+		}
+		
+		return f2;
+	}
+	
 	// app verifica se quantidade solicitada pela web suporta a quantidade minima
 	// exigida de venda do produto
-	public boolean getElegivelParaVenda(int count, Fornecedor fornecedor, Produto produto) {
+	public boolean getElegivelParaCompra(int count, Fornecedor fornecedor, Produto produto) {
 		elegivel = true;
 
+		// item quantidade
 		List<Precos> precos = Arrays.asList(fornecedor.getPrecos());
 		String qtde_minima_str = precos.get(count).getQuantidade_minima();
 		int qtde_minima = Integer.parseInt(qtde_minima_str);
 
 		String qtde_web_str = produto.getQuantidade();
 		int qtde_web = Integer.parseInt(qtde_web_str);
-
+		
 		if (qtde_web > qtde_minima)
 			return elegivel;
 		else
