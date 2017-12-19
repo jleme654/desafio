@@ -49,7 +49,7 @@ public class PedidoHelper {
             public int compare(Object o1, Object o2) {
                 Pedido p1 = (Pedido) o1;
                 Pedido p2 = (Pedido) o2;
-                return p1.getId() < p2.getId() ? +1 : (p1.getId() > p2.getId() ? -1 : 0);
+                return p1.getId() > p2.getId() ? +1 : (p1.getId() < p2.getId() ? -1 : 0);
             }
         });
 		return listaPedido;
@@ -88,7 +88,7 @@ public class PedidoHelper {
 				}
 				
 				pedido.setId(++count);
-				pedido.setItens(itens);
+				pedido.setItens(getItensMelhorPreco(itens));
 				pedido.setFornecedor(fornecedor);
 			}
 			
@@ -97,19 +97,28 @@ public class PedidoHelper {
 	}
 	
 	private List<Item> getItensMelhorPreco(List<Item> itens) {
+		if(itens.size() == 1 || itens.isEmpty()) 
+			return itens;
+		
 		List<Item> itensMelhorPreco = new ArrayList<>();
 		
-		// condicao de melhor preco - ordenando a lista de itens por melhor preco
-	    Collections.sort (itens, new Comparator<Object>() {
-            public int compare(Object o1, Object o2) {
-            	Item p1 = (Item) o1;
-            	Item p2 = (Item) o2;
-                return p1.getPreco() > p2.getPreco() ? +1 : p1.getPreco() < p2.getPreco() ? -1 : 0;
-            }
-        });
-		//o primeiro item com o melhor preco vai a nova lista de itens
-	    itensMelhorPreco.add(itens.get(0));
+		List<Double> listDouble = new ArrayList<>();
+		for (Item item : itens) {
+			listDouble.add(item.getPreco());
+		}
 		
+		double menorvalor = itens.get(0).getPreco();
+		for (int i = 1; i < listDouble.size(); i++) {
+			if(listDouble.get(i) < menorvalor);
+			  menorvalor = listDouble.get(i);
+		}
+		
+		//percorre a lista para pegar o elemento com o menor valor
+		for (Item item : itens) {
+			if(item.getPreco() == menorvalor)
+				itensMelhorPreco.add(item);
+		}
+	
 	    return itensMelhorPreco;
 	}
 	
