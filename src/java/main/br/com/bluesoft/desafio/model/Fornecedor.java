@@ -8,13 +8,11 @@ import java.util.List;
  * @since 2017-12-15
  * @version 1.0
  */
-// @Entity
 public class Fornecedor {
 
 	/**
 	 * variaveis
 	 */
-	// @Id
 	private String cnpj;
 	private List<Precos> precos;
 	private String nome;
